@@ -4,4 +4,4 @@ A simple tool that I built to solve the weather prediction problem. The entire a
 Click [here](https://hsuanhauliu.github.io/weather_prediction_with_viterbi_algorithm/index.html) to use it!
 
 ## Screenshot
-![screenshot](https://github.com/hsuanhauliu/weather_prediction_with_viterbi_algorithm/screenshot.jpg "screenshot")
+![screenshot](https://github.com/hsuanhauliu/weather_prediction_with_viterbi_algorithm/blob/master/screenshot.jpg "screenshot")
