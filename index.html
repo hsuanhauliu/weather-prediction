@@ -1,17 +1,51 @@
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Hidden Markov Model Weather Prediction solved using Viterbi Algorithm">
+    <meta name="author" content="Hsuan-Hau Liu">
+    <title>Hsuan-Hau Liu</title>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
   </head>
 
   <body>
     <div class="container">
-      <br><h1><u>Weather Prediction - Hidden Markov Model</u></h1><br>
+      <br><h1>Weather Prediction - Hidden Markov Model</h1><hr>
+      <p>
+        Given the observed sequence and some known probabilities, we wish to find
+        the most likely path of the Markov chain's states. For this problem, given
+        an observed sequence of a man bringing his umbrella on day <i>t</i>, we
+        want to find the most likely sequence of states (weathers) from day 1 (t = 0)
+        to day 5.<br><br>
+
+        To solve this problem, we need additional information about the probabilities
+        of the man bringing umbrella given the weather. For example, there could be
+        a 0.9 chance of the guy bringing his umbrella if it is rainy, and 0.2 chance
+        on a sunny day. We also need to know delta 0 as a starting point, which is the
+        likelihood of most likely path leading to that point. In addition, we would
+        also need the transition probability matrix, which is a matrix that contains
+        the probabilities of going from one state to another (if yesterday was rainy,
+        today might have a 50% chance to be rainy).<br><br>
+
+        The algorithm I use here is Viterbi's algorithm, a technique for finding the
+        most likely sequence of hidden states. You can read more about the algorithm
+        <a href="https://en.wikipedia.org/wiki/Viterbi_algorithm">here</a>.<hr>
+
+        To use this tool below, fill out all fields with appropriate inputs and click
+        the predict button. See <a href="https://github.com/hsuanhauliu/weather_prediction_with_viterbi_algorithm">here</a>
+        for implementation.
+      </p>
+
       <form id="user_input">
+        <div style="text-align: center">
+          <button type="button" class="btn btn-primary" onclick="sample()">Sample Inputs</button>
+        </div>
         <h2>Inputs</h2>
-        <table class="table table-hover text-center">
+        <table class="table table-hover table-bordered text-center">
           <thead>
-            <tr>
+            <tr class="table-primary">
               <th>Weather</th>
               <th>P(Umbrella | Weather)</th>
               <th>delta(weather)</th>
@@ -25,14 +59,14 @@
           <tbody>
             <!-- Row 1 -->
             <tr>
-              <td>Rainy</td>
+              <th>Rainy</th>
               <td>
                 <input type="number" max="1" min="0" step="0.01" required id="P_Um_R">
               </td>
               <td>
                 <input type="number" max="1" min="0" step="0.01" required id="delta_0_R">
               </td>
-              <td>Rainy</td>
+              <th>Rainy</th>
               <td>
                 <input type="number" max="1" min="0" step="0.01" required id="tran_R_R">
               </td>
@@ -43,14 +77,14 @@
 
             <!-- Row 2 -->
             <tr>
-              <td>Sunny</td>
+              <th>Sunny</th>
               <td>
                 <input type="number" max="1" min="0" step="0.01" required id="P_Um_S">
               </td>
               <td>
                 <input type="number" max="1" min="0" step="0.01" required id="delta_0_S">
               </td>
-              <td>Sunny</td>
+              <th>Sunny</th>
               <td>
                 <input type="number" max="1" min="0" step="0.01" required id="tran_S_R">
               </td>
@@ -62,11 +96,11 @@
         </table><!-- End first table -->
 
         <h2>Observations</h2>
-        <p>Observations that tell us whether the person brought umbrella each day.</p>
-        <table class="table table-hover text-center">
+        <p>Observations that tell us whether the person brought umbrella on day t.</p>
+        <table class="table table-hover table-bordered text-center">
           <!-- Time steps -->
           <thead>
-            <tr>
+            <tr class="table-primary">
               <th>t = 1</th>
               <th>t = 2</th>
               <th>t = 3</th>
@@ -156,7 +190,11 @@
             </tr>
           </tbody><!-- End second table -->
         </table>
-        <button type="button" onclick="predict()">Predict</button>
+
+        <!-- Button -->
+        <div style="text-align: center">
+          <button type="button" class="btn btn-primary" onclick="predict()">Predict</button>
+        </div>
       </form><br>
 
       <!-- Output results -->
@@ -165,7 +203,7 @@
         <!-- delta table -->
         <table class="table table-hover text-center">
           <thead>
-            <tr>
+            <tr class="table-primary">
               <th>Delta/δt(w)</th>
               <th>t = 1</th>
               <th>t = 2</th>
@@ -199,7 +237,7 @@
         <!-- psi table -->
         <table class="table table-hover text-center">
           <thead>
-            <tr>
+            <tr class="table-primary">
               <th>Psi/ψt(w)</th>
               <th>t = 1</th>
               <th>t = 2</th>
@@ -237,10 +275,15 @@
             <li id="sequence"></li>
           </ul>
         </div>
+        <br><br>
       </div><!-- end of result section -->
     </div>
 
     <script src="script.js"></script>
-  </body><br><br>
+
+    <footer class="container-fluid bg-dark text-center">
+      Copyright &copy; 2018 Hsuan-Hau Liu.
+    </footer>
+  </body>
 
 </html>

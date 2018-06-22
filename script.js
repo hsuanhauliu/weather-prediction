@@ -134,3 +134,15 @@ function predict() {
   document.getElementById("results").style = "block";
   return;
 }
+
+function sample() {
+  document.getElementById("P_Um_R").value="0.9";
+  document.getElementById("delta_0_R").value="0.5";
+  document.getElementById("tran_R_R").value="0.5";
+  document.getElementById("tran_R_S").value="0.5";
+  document.getElementById("P_Um_S").value="0.2";
+  document.getElementById("delta_0_S").value="0.5";
+  document.getElementById("tran_S_R").value="0.2";
+  document.getElementById("tran_S_S").value="0.8";
+  document.getElementById("obs-3-2").checked = true;
+}
