@@ -1,0 +1,246 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <br><h1><u>Weather Prediction - Hidden Markov Model</u></h1><br>
+      <form id="user_input">
+        <h2>Inputs</h2>
+        <table class="table table-hover text-center">
+          <thead>
+            <tr>
+              <th>Weather</th>
+              <th>P(Umbrella | Weather)</th>
+              <th>delta(weather)</th>
+
+              <th>Weather</th>
+              <th>Rainy</th>
+              <th>Sunny</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <!-- Row 1 -->
+            <tr>
+              <td>Rainy</td>
+              <td>
+                <input type="number" max="1" min="0" step="0.01" required id="P_Um_R">
+              </td>
+              <td>
+                <input type="number" max="1" min="0" step="0.01" required id="delta_0_R">
+              </td>
+              <td>Rainy</td>
+              <td>
+                <input type="number" max="1" min="0" step="0.01" required id="tran_R_R">
+              </td>
+              <td>
+                <input type="number" max="1" min="0" step="0.01" required id="tran_R_S">
+              </td>
+            </tr>
+
+            <!-- Row 2 -->
+            <tr>
+              <td>Sunny</td>
+              <td>
+                <input type="number" max="1" min="0" step="0.01" required id="P_Um_S">
+              </td>
+              <td>
+                <input type="number" max="1" min="0" step="0.01" required id="delta_0_S">
+              </td>
+              <td>Sunny</td>
+              <td>
+                <input type="number" max="1" min="0" step="0.01" required id="tran_S_R">
+              </td>
+              <td>
+                <input type="number" max="1" min="0" step="0.01" required id="tran_S_S">
+              </td>
+            </tr>
+          </tbody>
+        </table><!-- End first table -->
+
+        <h2>Observations</h2>
+        <p>Observations that tell us whether the person brought umbrella each day.</p>
+        <table class="table table-hover text-center">
+          <!-- Time steps -->
+          <thead>
+            <tr>
+              <th>t = 1</th>
+              <th>t = 2</th>
+              <th>t = 3</th>
+              <th>t = 4</th>
+              <th>t = 5</th>
+            </tr>
+          </thead>
+
+          <!-- Values -->
+          <tbody>
+            <tr>
+              <td>
+                <div class="form-check">
+                  <input class="form-input-yes" type="radio" name="day-1" id="obs-1-1" value="1" checked>
+                  <label class="form-label">
+                    Yes
+                  </label>
+                </div>
+              </td>
+              <td>
+                <input class="form-input-yes" type="radio" name="day-2" id="obs-2-1" value="1" checked>
+                <label class="form-label">
+                  Yes
+                </label>
+              </td>
+              <td>
+                <input class="form-input-yes" type="radio" name="day-3" id="obs-3-1" value="1" checked>
+                <label class="form-label">
+                  Yes
+                </label>
+              </td>
+              <td>
+                <input class="form-input-yes" type="radio" name="day-4" id="obs-4-1" value="1" checked>
+                <label class="form-label">
+                  Yes
+                </label>
+              </td>
+              <td>
+                <input class="form-input-yes" type="radio" name="day-5" id="obs-5-1" value="1" checked>
+                <label class="form-label">
+                  Yes
+                </label>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="form-check">
+                  <input class="form-input" type="radio" name="day-1" id="obs-1-2" value="0">
+                  <label class="form-label">
+                    No
+                  </label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check">
+                  <input class="form-input" type="radio" name="day-2" id="obs-2-2" value="0">
+                  <label class="form-label">
+                    No
+                  </label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check">
+                  <input class="form-input" type="radio" name="day-3" id="obs-3-2" value="0">
+                  <label class="form-label">
+                    No
+                  </label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check">
+                  <input class="form-input" type="radio" name="day-4" id="obs-4-2" value="0">
+                  <label class="form-label">
+                    No
+                  </label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check">
+                  <input class="form-input" type="radio" name="day-5" id="obs-5-2" value="0">
+                  <label class="form-label">
+                    No
+                  </label>
+                </div>
+              </td>
+            </tr>
+          </tbody><!-- End second table -->
+        </table>
+        <button type="button" onclick="predict()">Predict</button>
+      </form><br>
+
+      <!-- Output results -->
+      <div id="results" style="display: none">
+        <h2>Results</h2>
+        <!-- delta table -->
+        <table class="table table-hover text-center">
+          <thead>
+            <tr>
+              <th>Delta/δt(w)</th>
+              <th>t = 1</th>
+              <th>t = 2</th>
+              <th>t = 3</th>
+              <th>t = 4</th>
+              <th>t = 5</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>𝛿t(R)</td>
+              <td id="d_10"></td>
+              <td id="d_20"></td>
+              <td id="d_30"></td>
+              <td id="d_40"></td>
+              <td id="d_50"></td>
+            </tr>
+
+            <tr>
+              <td>𝛿t(S)</td>
+              <td id="d_11"></td>
+              <td id="d_21"></td>
+              <td id="d_31"></td>
+              <td id="d_41"></td>
+              <td id="d_51"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- psi table -->
+        <table class="table table-hover text-center">
+          <thead>
+            <tr>
+              <th>Psi/ψt(w)</th>
+              <th>t = 1</th>
+              <th>t = 2</th>
+              <th>t = 3</th>
+              <th>t = 4</th>
+              <th>t = 5</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>ψt(R)</td>
+              <td id="p_00"></td>
+              <td id="p_10"></td>
+              <td id="p_20"></td>
+              <td id="p_30"></td>
+              <td id="p_40"></td>
+            </tr>
+
+            <tr>
+              <td>ψt(S)</td>
+              <td id="p_01"></td>
+              <td id="p_11"></td>
+              <td id="p_21"></td>
+              <td id="p_31"></td>
+              <td id="p_41"></td>
+            </tr>
+          </tbody>
+        </table><br>
+
+        <h2>Conclusion</h2>
+        <div class="row">
+          <ul>
+            <li id="prediction_Fri"></li>
+            <li id="sequence"></li>
+          </ul>
+        </div>
+      </div><!-- end of result section -->
+    </div>
+
+    <script src="script.js"></script>
+  </body><br><br>
+
+</html>
