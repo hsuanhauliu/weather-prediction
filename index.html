@@ -14,28 +14,28 @@
     <div class="container">
       <br><h1>Weather Prediction - Hidden Markov Model</h1><hr>
       <p>
-        Given the observed sequence and some known probabilities, we wish to find
-        the most likely path of the Markov chain's states. For this problem, given
-        an observed sequence of a man bringing his umbrella on day <i>t</i>, we
-        want to find the most likely sequence of states (weathers) from day 1 (t = 0)
+        Given an observed sequence and some known probabilities, we wish to find
+        the most likely path of the Markov chain's states. For this particular problem,
+        we are given a sequence of a man bringing his umbrella on day <i>t</i>,
+        and we want to find the most likely sequence of states (weathers) from day 0 (t = 0)
         to day 5.<br><br>
 
         To solve this problem, we need additional information about the probabilities
-        of the man bringing umbrella given the weather. For example, there could be
-        a 0.9 chance of the guy bringing his umbrella if it is rainy, and 0.2 chance
-        on a sunny day. We also need to know delta 0 as a starting point, which is the
-        likelihood of most likely path leading to that point. In addition, we would
-        also need the transition probability matrix, which is a matrix that contains
-        the probabilities of going from one state to another (if yesterday was rainy,
-        today might have a 50% chance to be rainy).<br><br>
+        of the man bringing his umbrella given a weather condition. For example, there
+        could be a 90% chance of the guy bringing his umbrella on a rainy day, and a 20%
+        chance on a sunny day. We also need to know delta 0 as a starting point, which is
+        the likelihood of the weather on day 0. In addition, we would also need the transition
+        probability matrix, which is a matrix that contains the probabilities of going from
+        one state to another (if yesterday was rainy, there might be a 50% of raining today).
+        <br><br>
 
-        The algorithm I use here is Viterbi's algorithm, a technique for finding the
+        The algorithm I used here is the Viterbi algorithm, a technique for finding the
         most likely sequence of hidden states. You can read more about the algorithm
         <a href="https://en.wikipedia.org/wiki/Viterbi_algorithm">here</a>.<hr>
 
-        To use this tool below, fill out all fields with appropriate inputs and click
+        To use this tool, simply fill out all fields with appropriate inputs and click
         the predict button. See <a href="https://github.com/hsuanhauliu/weather_prediction_with_viterbi_algorithm">here</a>
-        for implementation.
+        for the implementation.
       </p>
 
       <form id="user_input">
@@ -201,6 +201,9 @@
       <div id="results" style="display: none">
         <h2>Results</h2>
         <!-- delta table -->
+        <p>
+          δt(w): likelihood of most likely path ending at state w at time t.
+        </p>
         <table class="table table-hover text-center">
           <thead>
             <tr class="table-primary">
@@ -233,8 +236,12 @@
             </tr>
           </tbody>
         </table>
+        <center><small><i>*The numbers might be slightly off due to rounding error.</i></small></center><br><br>
 
         <!-- psi table -->
+        <p>
+          ψt(w): the previous state at time t-1.
+        </p>
         <table class="table table-hover text-center">
           <thead>
             <tr class="table-primary">
